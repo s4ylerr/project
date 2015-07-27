@@ -3,11 +3,13 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 26, 2015 at 05:16 PM
+-- Generation Time: Jul 27, 2015 at 08:50 AM
 -- Server version: 5.6.16
 -- PHP Version: 5.5.9
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
+SET AUTOCOMMIT = 0;
+START TRANSACTION;
 SET time_zone = "+00:00";
 
 
@@ -40,11 +42,6 @@ CREATE TABLE IF NOT EXISTS `basic_infos` (
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=9 ;
 
 --
--- Truncate table before insert `basic_infos`
---
-
-TRUNCATE TABLE `basic_infos`;
---
 -- Dumping data for table `basic_infos`
 --
 
@@ -74,13 +71,15 @@ CREATE TABLE IF NOT EXISTS `food_types` (
   PRIMARY KEY (`id`),
   UNIQUE KEY `food_type` (`food_type`),
   KEY `id` (`id`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=2 ;
 
 --
--- Truncate table before insert `food_types`
+-- Dumping data for table `food_types`
 --
 
-TRUNCATE TABLE `food_types`;
+INSERT INTO `food_types` (`id`, `food_type`) VALUES
+(1, 'Ð¿Ñ€ÐµÐ´ÑÑÑ‚Ð¸Ñ');
+
 -- --------------------------------------------------------
 
 --
@@ -95,39 +94,63 @@ CREATE TABLE IF NOT EXISTS `measures` (
   `measure` varchar(30) NOT NULL,
   PRIMARY KEY (`id`),
   UNIQUE KEY `measure` (`measure`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=17 ;
 
 --
--- Truncate table before insert `measures`
+-- Dumping data for table `measures`
 --
 
-TRUNCATE TABLE `measures`;
+INSERT INTO `measures` (`id`, `measure`) VALUES
+(8, 'бр.'),
+(7, 'г'),
+(9, 'глава'),
+(10, 'глави'),
+(16, 'к. л.'),
+(3, 'мл'),
+(14, 'ч. л.'),
+(15, 'щипка');
+
 -- --------------------------------------------------------
 
 --
 -- Table structure for table `products`
 --
--- Creation: Jul 24, 2015 at 03:17 PM
+-- Creation: Jul 26, 2015 at 06:32 PM
 --
 
 DROP TABLE IF EXISTS `products`;
 CREATE TABLE IF NOT EXISTS `products` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
-  `product` varchar(50) NOT NULL,
-  `product_type` int(11) NOT NULL,
-  `calories` int(11) NOT NULL,
-  `GI` int(11) NOT NULL,
+  `product` varchar(200) NOT NULL,
+  `product_type` varchar(50) DEFAULT NULL,
+  `calories` int(11) DEFAULT NULL,
+  `GI` int(11) DEFAULT NULL,
   `picture` blob,
   PRIMARY KEY (`id`),
   UNIQUE KEY `product` (`product`),
-  KEY `product_type` (`product_type`)
-) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
+  UNIQUE KEY `product_type_2` (`product_type`)
+) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=25 ;
 
 --
--- Truncate table before insert `products`
+-- RELATIONS FOR TABLE `products`:
+--   `product_type`
+--       `product_types` -> `type_name`
 --
 
-TRUNCATE TABLE `products`;
+--
+-- Dumping data for table `products`
+--
+
+INSERT INTO `products` (`id`, `product`, `product_type`, `calories`, `GI`, `picture`) VALUES
+(9, 'пълнозърнест хляб', 'въглехидрати', 180, 35, NULL),
+(11, 'ръжен хляб', NULL, 170, 40, NULL),
+(19, 'качамак', NULL, 72, 72, NULL),
+(20, 'овесени ядки', NULL, 384, 45, NULL),
+(21, 'булгур', NULL, 342, 22, NULL),
+(22, 'opera\r\n', NULL, NULL, NULL, NULL),
+(23, 'рижав', NULL, NULL, NULL, NULL),
+(24, 'розов\r\n', NULL, NULL, NULL, NULL);
+
 -- --------------------------------------------------------
 
 --
@@ -138,16 +161,21 @@ TRUNCATE TABLE `products`;
 
 DROP TABLE IF EXISTS `product_types`;
 CREATE TABLE IF NOT EXISTS `product_types` (
-  `type_name` int(11) NOT NULL,
+  `type_name` varchar(50) NOT NULL,
   PRIMARY KEY (`type_name`),
   UNIQUE KEY `type_name` (`type_name`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8;
 
 --
--- Truncate table before insert `product_types`
+-- Dumping data for table `product_types`
 --
 
-TRUNCATE TABLE `product_types`;
+INSERT INTO `product_types` (`type_name`) VALUES
+('белтъчини'),
+('въглехидрати'),
+('мазнини'),
+('подправки');
+
 -- --------------------------------------------------------
 
 --
@@ -169,10 +197,11 @@ CREATE TABLE IF NOT EXISTS `recipes` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 --
--- Truncate table before insert `recipes`
+-- RELATIONS FOR TABLE `recipes`:
+--   `user_id`
+--       `users` -> `id`
 --
 
-TRUNCATE TABLE `recipes`;
 -- --------------------------------------------------------
 
 --
@@ -195,10 +224,29 @@ CREATE TABLE IF NOT EXISTS `recipe_products_quantities` (
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
 --
--- Truncate table before insert `recipe_products_quantities`
+-- RELATIONS FOR TABLE `recipe_products_quantities`:
+--   `measures_id`
+--       `measures` -> `id`
+--   `product_id`
+--       `products` -> `id`
+--   `recipe_id`
+--       `recipes` -> `id`
 --
 
-TRUNCATE TABLE `recipe_products_quantities`;
+-- --------------------------------------------------------
+
+--
+-- Table structure for table `test`
+--
+-- Creation: Jul 26, 2015 at 05:23 PM
+--
+
+DROP TABLE IF EXISTS `test`;
+CREATE TABLE IF NOT EXISTS `test` (
+  `name` varchar(50) CHARACTER SET utf8mb4 NOT NULL,
+  PRIMARY KEY (`name`)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8;
+
 -- --------------------------------------------------------
 
 --
@@ -217,11 +265,6 @@ CREATE TABLE IF NOT EXISTS `users` (
   UNIQUE KEY `username` (`username`)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 ;
 
---
--- Truncate table before insert `users`
---
-
-TRUNCATE TABLE `users`;
 --
 -- Constraints for dumped tables
 --
@@ -245,6 +288,7 @@ ALTER TABLE `recipe_products_quantities`
   ADD CONSTRAINT `recipe_products_quantities_ibfk_1` FOREIGN KEY (`recipe_id`) REFERENCES `recipes` (`id`),
   ADD CONSTRAINT `recipe_products_quantities_ibfk_2` FOREIGN KEY (`product_id`) REFERENCES `products` (`id`),
   ADD CONSTRAINT `recipe_products_quantities_ibfk_3` FOREIGN KEY (`measures_id`) REFERENCES `measures` (`id`);
+COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
 /*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
