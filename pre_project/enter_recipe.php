@@ -1,7 +1,8 @@
 	<?php 
 //create connection
 	session_start();
-	$usernane = $_SESSION['username'];
+	//temporaliry!
+	//!!set username
 	$conn = mysqli_connect('localhost', 'root', '', 'foods_project');
 //check connection
 	if (!$conn) {
@@ -9,8 +10,7 @@
 	} 
 //echo "Connected successfully<br />";
 	mysqli_set_charset($conn, 'utf8');
-//продуктите, вече записани в базата
-	
+	date_default_timezone_set('Europe/Sofia');
 	?>
 	<!DOCTYPE html>
 	<html lang="en">
@@ -24,49 +24,59 @@
 	</head>
 	<body>
 		<p>Въведете данни за Вашата рецепта</p>
-		<form method="get" action="enter_recipe.php">
-			<label for="num">Въведете брой на продуктите</label>
-			<input type="number" name="number" id="num">
+		<form method="post" action="enter_recipe.php">
+			<label for="name">Заглавие на Вашата рецепта</label>
+			<input type="text" name="name" id="name">
+			<label for="num">Въведете брой на продуктите, участващи в рецептата</label>
+			<input type="number" name="number">		
 			<input type="submit" name="submit" value="въведи">
 		</form>
 		<?php 
-		//number of products per recipe
-		$_SESSION['number'] = $_GET['number'];
-		?>
-		<form method="post" action="recipe.php">
-			<?php 
-			for ($i=1; $i <= $_SESSION['number'] ; $i++) { 
-				$q = "SELECT * FROM `products`";
-				$result = mysqli_query($conn, $q);
-				//TODO labels
-				echo "<p><select name='product'>";
-				if (mysqli_num_rows($result)>0) {
-					while ($row = mysqli_fetch_assoc($result)) {							
-						echo "<option value='>".$row['product']."'>".$row['product']."</option>";
-					}
-				}
-				echo "</select></p>";	
-				$q_m = "SELECT * FROM `measures`";
-				$result_m = mysqli_query($conn, $q_m);
-				//TODO labels
-				echo "<p><select name='measure'>";
-				if (mysqli_num_rows($result_m)>0) {
-					while ($row_m = mysqli_fetch_assoc($result_m)) {							
-						echo "<option value='>".$row_m['measure']."'>".$row_m['measure']."</option>";
-					}
-				}
-				echo "</select></p>";
-				//TODO labels
-				echo "<input type='number' name='quantity'>";
+		if (isset($_POST['submit'])) {
+			$num = $_POST['number'];
+			$name = $_POST['name'];
+			$date = date('Y-m-d');
+			//условие да не се повтарят имената на рецептите в базата 
+			$q_name = "SELECT `name` FROM `recipes`";
+			$res_name = mysqli_query($conn, $q_name);
+			$flag = 0;
+			if (mysqli_num_rows($res_name) > 0) {
+		while ($row_name = mysqli_fetch_assoc($res_name)) {
+			foreach ($row_name as $value) {
+				if ($row_name['name'] == $name) {
+					$flag = 1;
 
+				}								
 			}
-
-
-			?>
-			<p>не попълвайте, ако целта Ви е само да изчислите гликемичен индекс и калории, по-късно може да добавите и описание</p>
-			<label for="description">Начин на приготвяне на рецептата</label>
-			<textarea name="description" id="description"></textarea>
-			<input type="submit" value="submit" name="submit">
-		</form>
+		}
+	}
+	if ($flag == 1) {
+		echo "Рецепта, с такова име вече съществува в базата дании. Моля прегледайте вече съществуващата рецепта и променете името!";
+	} 
+		//getting the id of the user
+			$q_user = "SELECT `id` FROM `users` WHERE `username` = '$username'";
+			$result_user = mysqli_query($conn, $q_user);
+			$row_user = mysqli_fetch_assoc($result_user);
+			$id = $row_user['id'];
+		//entering recipe into database
+			$q_r = "INSERT INTO `recipes`(`name`, `date_published`, `user_id`) 
+			VALUES ('$name','$date', $id)";
+			if (mysqli_query($conn, $q_r)) {
+				$q_r = "SELECT `id` FROM `recipes` WHERE `name` = '$name'";
+				$result_recipe = mysqli_query($conn, $q_r);
+				$row_recipe = mysqli_fetch_assoc($result_recipe);
+			
+				$id_rec = $row_recipe['id'];
+				echo $name;
+				//echo $id_rec;
+			//промени или изтрий името
+				echo "<a href='recipe3.php?id=$id_rec&num=$num'>Премини нататък</a>";
+			} else {
+				echo "Try again!";
+			}
+		} else {
+			echo "Моля, попълнете информацията за рeцептата!";
+		}
+		?>
 	</body>
 	</html>
