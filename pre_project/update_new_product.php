@@ -3,6 +3,11 @@
 	$username = 'kokolina';
 	require_once('functions.php');
 	connect_database($connect);
+	if(!empty($_GET)) {
+		$product = $_GET['product'];
+	} else {
+		$product = '';
+	} 
 	
 	//retrieving product info
 	$q = "SELECT * FROM `products` WHERE `product` = '$product'";
