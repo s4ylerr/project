@@ -38,10 +38,10 @@
 			$product = $_POST['product'];
 			$cal = $_POST['cal'];
 			$gi = $_POST['gi'];	
+			$id_user = "";
+			get_id_user($username, $connect, $id_user);
 
-			get_id_user($username, $connect);
-
-			$q = "INSERT INTO `products`(`product`, `calories`, `gi`, `user_id`, `date_inserted`) 
+			$q = "INSERT INTO `products`(`product`, `calories`, `gi`, `user_id`, `date_published`) 
 				VALUES ('$product', $cal, $gi, $id_user, '$date')";
 			if (mysqli_query($connect, $q)) {
 				echo "Успешен запис!";

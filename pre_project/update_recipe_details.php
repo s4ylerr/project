@@ -8,9 +8,7 @@ if (!empty($_GET)) {
 	$id_rec = $_GET['id_rec'];
 	$num = $_GET['num'];
 	//данните, вече въведени за описанието на рецептата и нейните продукти и за евентуална промяна
-	$q_rec = "SELECT * FROM `recipes` WHERE `id` = $id_rec";
-	$res_rec = mysqli_query($connect, $q_rec);
-	$row_rec = mysqli_fetch_assoc($res_rec);
+	recipe_details($id_rec, $connect);
 //	 и нейните продукти и за евентуална промяна
 	$prod_info = array(array());
 	$q_prod = "SELECT * FROM `recipe_products_quantities` WHERE `recipe_id` = $id_rec ORDER BY `id`";
@@ -71,10 +69,14 @@ echo "</pre>";*/
 					echo ">".$product."</option>";
 				}
 			}
-			echo "</select></p>";	
+			echo "</select></p>";
+			$quantity = $prod_info[$j]['quantity'];
+			echo "<label for='quant'>Количество</label>";
+			echo "<input type='number' name='quantity[]' value = '$quantity'>";
+
 			$q_m = "SELECT * FROM `measures` ORDER BY `measure`";
 			$result_m = mysqli_query($connect, $q_m);
-			echo "<p><label for='meas'".$j."'>мярка</label>";
+			echo "<p><label for='meas'".$j."'>мерна единица</label>";
 			echo "<p><select name='measure[]' id='meas".$j."'>";
 			if (mysqli_num_rows($result_m)>0) {
 				while ($row_m = mysqli_fetch_assoc($result_m)) {
@@ -89,8 +91,7 @@ echo "</pre>";*/
 			}
 			echo "</select></p>";
 				//TODO labels
-			$quantity = $prod_info[$j]['quantity'];
-			echo "<input type='number' name='quantity[]' value = '$quantity'>";
+			
 		}
 
 

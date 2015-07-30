@@ -8,9 +8,7 @@ if (!empty($_GET)) {
 	$id_rec = $_GET['id_rec'];
 	$num = $_GET['num'];
 	//данните, вече въведени за рецептата и за евентуална промяна
-	$q_rec = "SELECT * FROM `recipes` WHERE `id` = $id_rec";
-	$res_rec = mysqli_query($connect, $q_rec);
-	$row_rec = mysqli_fetch_assoc($res_rec);
+	recipe_details($id_rec, $connect);
 } else {
 	$id_rec = "";
 	$num = "";
@@ -46,16 +44,10 @@ if (!empty($_GET)) {
 			//id user
 		$id = $_POST['id_user'];
 		$id_rec = $_POST['id_rec'];
-		//checking for uniqueness of the name
-		$flag = 0;
-		$q_rec = "SELECT * FROM `recipes` WHERE `id` = $id_rec";
-		$res_rec = mysqli_query($connect, $q_rec);
-		$row_rec = mysqli_fetch_assoc($res_rec);
-			//updating recipe into database
-			echo $id_rec;		
-			$q_r = "UPDATE `recipes` SET `name`= '$name', `date_published`= '$date'
+		//updating recipe into database				
+			$q = "UPDATE `recipes` SET `name`= '$name', `date_published`= '$date'
 			WHERE `id`= $id_rec";
-			if (mysqli_query($connect, $q_r)) {					
+			if (mysqli_query($connect, $q)) {					
 				echo $name." Рецептата съдържа ".$num." продукта.";
 				echo "<a href='enter_recipe_details.php?id_rec=$id_rec&num=$num'>Премини нататък</a>";
 			} 	

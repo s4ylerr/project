@@ -17,6 +17,7 @@
 	}
 
 	?>
+	<!-- to be deleted from here-->
 	<!DOCTYPE html>
 	<html lang="en">
 	<head>
@@ -28,6 +29,7 @@
 		<script src="jquery-1.11.3.min.js"></script>
 	</head>
 	<body>
+	<!-- up to here-->
 		<p>Количествата на продуктите се въвеждат в грамове или милилитри. Допустими са и количества като - чаена лъжичка /ч. л/, кафена лъжичка /к. л/, щипка, брой /бр./, глава/глави/, когато това е уместно. </p>
 		<p>Въведете данни за Вашата рецепта</p>
 		<!-- форма за продуктите-->
@@ -36,7 +38,7 @@
 			<input type="hidden" name="id" value="<?php echo $row['id']?>">			
 			<p>Въведете данни за продукт</p>			
 			<label for="nm">Въведете продукт</label>			
-			<input type="text" name="name" id="nm" value="<?php if(isset($row['product'])) {echo $row['product']; }?>">
+			<input type="text" name="product" id="nm" value="<?php if(isset($row['product'])) {echo $row['product']; }?>">
 			<label for="cal">Въведете калории в 100 г продукт</label>
 			<input type="number" name="cal" id="cal" value="<?php echo $row['calories'];?>">
 			<label for="gi">Въведете гликемичен индекс за 100 г продукт</label>
@@ -46,12 +48,12 @@
 		<?php 
 		if (!empty($_POST)) {
 			$id = $_POST['id'];
-			$name = $_POST['name'];
+			$product = $_POST['product'];
 			$cal = $_POST['cal'];
 			$gi = $_POST['gi'];	
 
 			$q_new_info = "UPDATE `products` 
-						SET `product`='$name',
+						SET `product`='$product',
 						`calories`=$cal,
 						`gi`=$gi
 						WHERE `id` = $id";
