@@ -1,16 +1,9 @@
 	<?php 
-//create connection
-	session_start();
+//enters recipe name and number of products	
 	//temporaliry!
-	//!!set username
-	$conn = mysqli_connect('localhost', 'root', '', 'foods_project');
-//check connection
-	if (!$conn) {
-		die ("Connection failed: mysqli_connect_error()");
-	} 
-//echo "Connected successfully<br />";
-	mysqli_set_charset($conn, 'utf8');
-	date_default_timezone_set('Europe/Sofia');
+	require_once('functions.php');
+	connect_database($connect);
+	$username = 'kokolina';
 	?>
 	<!DOCTYPE html>
 	<html lang="en">
@@ -38,45 +31,49 @@
 			$date = date('Y-m-d');
 			//условие да не се повтарят имената на рецептите в базата 
 			$q_name = "SELECT `name` FROM `recipes`";
-			$res_name = mysqli_query($conn, $q_name);
+			$res_name = mysqli_query($connect, $q_name);
 			$flag = 0;
 			if (mysqli_num_rows($res_name) > 0) {
-		while ($row_name = mysqli_fetch_assoc($res_name)) {
-			foreach ($row_name as $value) {
-				if ($row_name['name'] == $name) {
-					$flag = 1;
+				while ($row_name = mysqli_fetch_assoc($res_name)) {
+					foreach ($row_name as $value) {
+						if ($row_name['name'] == $name) {
+							$flag = 1;
 
-				}								
+						}								
+					}
+				}
 			}
-		}
-	}
-	if ($flag == 1) {
-		echo "Рецепта, с такова име вече съществува в базата дании. Моля прегледайте вече съществуващата рецепта и променете името!";
-	} 
+			if ($flag == 1) {
+				echo "Рецепта, с такова име вече съществува в базата дании. Моля прегледайте вече съществуващата рецепта и променете името!";
+			} else {
 		//getting the id of the user
-			$q_user = "SELECT `id` FROM `users` WHERE `username` = '$username'";
-			$result_user = mysqli_query($conn, $q_user);
-			$row_user = mysqli_fetch_assoc($result_user);
-			$id = $row_user['id'];
+				$q_user = "SELECT `id` FROM `users` WHERE `username` = '$username'";
+				$result_user = mysqli_query($connect, $q_user);
+				$row_user = mysqli_fetch_assoc($result_user);
+				$id = $row_user['id'];
 		//entering recipe into database
-			$q_r = "INSERT INTO `recipes`(`name`, `date_published`, `user_id`) 
-			VALUES ('$name','$date', $id)";
-			if (mysqli_query($conn, $q_r)) {
-				$q_r = "SELECT `id` FROM `recipes` WHERE `name` = '$name'";
-				$result_recipe = mysqli_query($conn, $q_r);
-				$row_recipe = mysqli_fetch_assoc($result_recipe);
-			
-				$id_rec = $row_recipe['id'];
-				echo $name;
+				$q_r = "INSERT INTO `recipes`(`name`, `date_published`, `user_id`) 
+				VALUES ('$name','$date', $id)";
+				if (mysqli_query($connect, $q_r)) {
+					$q_r = "SELECT `id` FROM `recipes` WHERE `name` = '$name'";
+					$result_recipe = mysqli_query($connect, $q_r);
+					$row_recipe = mysqli_fetch_assoc($result_recipe);
+					
+					$id_rec = $row_recipe['id'];
+					echo $name." Рецептата съдържа ".$num." продукта.";
 				//echo $id_rec;
 			//промени или изтрий името
-				echo "<a href='recipe3.php?id=$id_rec&num=$num'>Премини нататък</a>";
-			} else {
-				echo "Try again!";
-			}
+					echo "<a href='enter_recipe_details.php?id_rec=$id_rec&num=$num'>Премини нататък</a>";
+				} else {
+					echo "Try again!";
+				}
+			} 
 		} else {
 			echo "Моля, попълнете информацията за рeцептата!";
 		}
 		?>
+		<!--Само на този запис ще му бъде позволенода се изтрива напълно!?????-->
+		<a href="delete_recipe.php?id_rec=<?php echo $id_rec?>">Изтрий</a>
+		<a href="update_recipe.php?id_rec=<?php echo $id_rec?>&num=<?php echo $num; ?>">Промени</a>
 	</body>
 	</html>
