@@ -1,6 +1,6 @@
 <?php 
 require_once('functions.php');
-	connect_database($connect);
+require_once('includes.php');
 $id_rec = $_GET['id_rec'];
 $q = "	UPDATE `recipe_products_quantities` 
 		SET `date_deleted` = '$date' 

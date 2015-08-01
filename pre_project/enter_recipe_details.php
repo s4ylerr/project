@@ -4,16 +4,21 @@
 	//temporaliry!
 $username = 'kokolina';
 require_once('functions.php');
-connect_database($connect);
+require_once('includes.php');
 if (!empty($_GET)) {
 	//recipe_id
 	$id_rec = $_GET['id_rec'];
 	//num products
 	$num = $_GET['num'];
+	//recipe name
+	$q = "SELECT `name` FROM `recipes` WHERE `id` = $id_rec";
+	$result = mysqli_query($connect, $q);
+	$row = mysqli_fetch_assoc($result);
 } else {
 	$id_rec= "";
 	$num = "";
 }
+
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -22,7 +27,9 @@ if (!empty($_GET)) {
 	<title>Document</title>
 </head>
 <body>	
-	<form method="post" action="enter_recipe_details.php">
+	<!--Recipe name-->
+	<p><?php if (isset($row['name'])) {echo $row['name'];}?></p>
+	<form method="post" action="enter_recipe_details.php" enctype="multipart/form-data">
 		<input type="hidden" name="id_rec" value="<?php echo $id_rec?>">
 		<input type="hidden" name="num" value="<?php echo $num?>">
 		<!--recipe products and measures-->
@@ -58,11 +65,13 @@ if (!empty($_GET)) {
 			}
 			echo "</select></p>";
 			
-					}
+		}
 
 		?>
 		<label for="description">Начин на приготвяне на рецептата</label>
 		<textarea name="description" id="description"></textarea>
+		<label for="ph">снимка</label>
+		<input type="file" name="photo" id="ph">
 		<input type="submit" value="submit" name="submit">
 	</form>
 	<?php
@@ -72,6 +81,28 @@ if (!empty($_GET)) {
 		$measure = $_POST['measure'];
 		$product = $_POST['product'];
 		$description = $_POST['description'];
+
+		//не е задължително да има снимка!!??
+		if(!empty($_FILES))		{
+			if (!empty($_FILES['photo']['tmp_name'])) {
+				
+
+				$file_name = $_FILES['photo']['name'];
+				$tmp_name = $_FILES['photo']['tmp_name'];
+				$file_size = $_FILES['photo']['size'];
+				$file_type = $_FILES['photo']['type'];
+				$content = addslashes(file_get_contents($tmp_name));
+//insering picture into the
+				$q = "UPDATE `recipes` 
+				SET `content_photo`='$content',
+				`name_photo`='$file_name',
+				`type_photo`='$file_type',
+				`size_photo`='$file_size' 
+				WHERE  `id` = $id_rec ";
+
+				mysqli_query($connect, $q) or die('Error, query failed.');
+			}
+		}
 	//num of prod
 		$num = $_POST['num'];
 		$flag = 0;
@@ -82,7 +113,8 @@ if (!empty($_GET)) {
 			//ид мерна единица
 			$id_meas = $measure[$k];
 			//количество
-			$quant = $quantity[$k];			
+			$quant = $quantity[$k];		
+			//product info into the db	
 			$q_r = "INSERT INTO `recipe_products_quantities`
 			(`recipe_id`, `product_id`, `measures_id`, `quantity`) 
 			VALUES ($id_rec, $id_prod, $id_meas, $quant)";
@@ -113,6 +145,7 @@ if (!empty($_GET)) {
 	?>
 	<a href="delete_recipe_details.php?id_rec=<?php echo $id_rec?>">Изтрий</a>
 	<a href="update_recipe_details.php?id_rec=<?php echo $id_rec?>&num=<?php echo $num; ?>">Промени</a>
+
 
 </body>
 </html>

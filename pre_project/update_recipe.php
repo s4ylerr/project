@@ -3,12 +3,14 @@
 	//temporaliry!
 $username = 'kokolina';
 require_once('functions.php');
-	connect_database($connect);
+require_once('includes.php');
 if (!empty($_GET)) {
 	$id_rec = $_GET['id_rec'];
 	$num = $_GET['num'];
 	//данните, вече въведени за рецептата и за евентуална промяна
-	recipe_details($id_rec, $connect);
+	$q_rec = "SELECT * FROM `recipes` WHERE `id` = $id_rec";
+	$res_rec = mysqli_query($connect, $q_rec);
+	$row_rec = mysqli_fetch_assoc($res_rec);
 } else {
 	$id_rec = "";
 	$num = "";
@@ -26,7 +28,7 @@ if (!empty($_GET)) {
 	<script src="jquery-1.11.3.min.js"></script>
 </head>
 <body>
-	<p>Промени</p>
+	<p>Промени </p>
 	<form method="post" action="update_recipe.php">
 		<label for="name">Заглавие на Вашата рецепта</label>
 		<input type="text" name="name" id="name" value="<?php if(isset ($row_rec)) {echo $row_rec['name']; } else {echo ""; }?>">
@@ -45,12 +47,12 @@ if (!empty($_GET)) {
 		$id = $_POST['id_user'];
 		$id_rec = $_POST['id_rec'];
 		//updating recipe into database				
-			$q = "UPDATE `recipes` SET `name`= '$name', `date_published`= '$date'
-			WHERE `id`= $id_rec";
-			if (mysqli_query($connect, $q)) {					
-				echo $name." Рецептата съдържа ".$num." продукта.";
-				echo "<a href='enter_recipe_details.php?id_rec=$id_rec&num=$num'>Премини нататък</a>";
-			} 	
+		$q = "UPDATE `recipes` SET `name`= '$name', `date_published`= '$date'
+		WHERE `id`= $id_rec";
+		if (mysqli_query($connect, $q)) {					
+			echo $name." Рецептата съдържа ".$num." продукта.";
+			echo "<a href='enter_recipe_details.php?id_rec=$id_rec&num=$num'>Премини нататък</a>";
+		} 	
 		
 	} else {
 		echo "Моля, попълнете информацията за рeцептата!";

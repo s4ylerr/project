@@ -2,7 +2,7 @@
 //enters recipe name and number of products	
 	//temporaliry!
 	require_once('functions.php');
-	connect_database($connect);
+	require_once('includes.php');
 	$username = 'kokolina';
 	?>
 	<!DOCTYPE html>
@@ -32,7 +32,10 @@
 			$id_user = "";
 
 		//getting the id of the user
-			get_id_user($username, $connect, $id_user);
+			$q = "SELECT * FROM `users` WHERE `username` = 'kokolina'";
+			$result = mysqli_query($connect, $q);
+			$row = mysqli_fetch_assoc($result);	
+			$id_user= $row['id'];
 		//entering recipe into database
 			$q_r = "INSERT INTO `recipes`(`name`, `date_published`, `user_id`) 
 			VALUES ('$name','$date', $id_user)";

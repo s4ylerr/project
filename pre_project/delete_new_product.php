@@ -1,7 +1,6 @@
 <?php 
 require_once('functions.php');
-	connect_database($connect);
-
+require_once('includes.php');
 $product = $_GET['product'];
 
 $q = "	UPDATE `products` 

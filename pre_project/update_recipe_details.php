@@ -3,12 +3,14 @@
 	//temporaliry!
 $username = 'kokolina';
 require_once('functions.php');
-connect_database($connect);
+require_once('includes.php');
 if (!empty($_GET)) {
 	$id_rec = $_GET['id_rec'];
 	$num = $_GET['num'];
 	//данните, вече въведени за описанието на рецептата и нейните продукти и за евентуална промяна
-	recipe_details($id_rec, $connect);
+	$q = "SELECT * FROM `recipes` WHERE `id` = $id_rec";
+	$result = mysqli_query($connect, $q);
+	$row = mysqli_fetch_assoc($result);
 //	 и нейните продукти и за евентуална промяна
 	$prod_info = array(array());
 	$q_prod = "SELECT * FROM `recipe_products_quantities` WHERE `recipe_id` = $id_rec ORDER BY `id`";
@@ -22,7 +24,6 @@ if (!empty($_GET)) {
 			$i++;			
 		}
 	}
-
 } else {
 	$id_rec = "";
 	$num = "";
@@ -38,7 +39,8 @@ echo "</pre>";*/
 	<title>Document</title>
 </head>
 <body>	
-	<form method="post" action="update_recipe_details.php">
+	<p><?php if (isset($row['name'])) {echo $row['name'];}?></p>
+	<form method="post" action="update_recipe_details.php" enctype="multipart/form-data">
 		<input type="hidden" name="id_rec" value="<?php echo $id_rec; ?>">
 		<input type="hidden" name="num_prod" value="<?php echo $num;?>">
 		<input type="hidden" name="id" value=<?php if (isset($prod_info[0]['id'])) {echo $prod_info[0]['id'];}?>>
@@ -90,7 +92,7 @@ echo "</pre>";*/
 				}
 			}
 			echo "</select></p>";
-				//TODO labels
+
 			
 		}
 
@@ -100,7 +102,15 @@ echo "</pre>";*/
 		<textarea name="description" id="description" value="<?php echo $row_rec['description']; ?>">
 			<?php  if (isset ($row_rec['description'])){ echo $row_rec['description']; }?>
 		</textarea>
+		<input type="file" name="photo" id="ph">
+		<?php 
+		$q = "SELECT `content_photo` FROM `recipes` WHERE id = $id_rec";
+		$result = mysqli_query($connect, $q);
+		$row = mysqli_fetch_assoc($result);
+		echo '<img src="data:image/jpeg;base64,'.base64_encode( $row['content_photo'] ).'"/>';
+		?>
 		<input type="submit" value="submit" name="submit">
+
 	</form>
 	<?php
 	if (isset($_POST['submit'])) {
@@ -115,50 +125,64 @@ echo "</pre>";*/
 		$description = $_POST['description'];
 	//num of prod
 		$num = $_POST['num_prod'];
-		echo "<pre>";
-		var_dump($quantity);
-		var_dump($measure);
-		var_dump($p);
-			echo "</pre>";
-		echo $num.' ';
-		echo $id_rec;
+		//updating photo
+		//не е задължително да има снимка
+		if(!empty($_FILES))		{			
+			$file_name = $_FILES['photo']['name'];
+			$tmp_name = $_FILES['photo']['tmp_name'];
+			$file_size = $_FILES['photo']['size'];
+			$file_type = $_FILES['photo']['type'];
+			$content = addslashes(file_get_contents($tmp_name));
+//insering picture into the
+			$q = "UPDATE `recipes` 
+			SET `content_photo`='$content',
+			`name_photo`='$file_name',
+			`type_photo`='$file_type',
+			`size_photo`='$file_size' 
+			WHERE  `id` = $id_rec ";
+			mysqli_query($connect, $q) or die('Error, query failed.');
+			
+		}
+	//update product info
 		$flag = 0;
 		$flag_des = 0;
 		for ($k = 0; $k < $num; $k++) { 
-				echo $p[$k]." ";
+				/*echo $p[$k]." ";
 				echo $measure[$k]." ";
-				echo $quantity[$k]."<br /> ";
-			$q_r = "UPDATE `recipe_products_quantities` 
-					SET `quantity`= $quantity[$k],
-					`product_id` = $p[$k],
-					`measures_id` = $measure[$k]
-					WHERE `id`=$id";
-			 
-			if (mysqli_query($connect, $q_r)) {
-				$flag = 1;
-			} else {
-				$flag = 0;
+				echo $quantity[$k]."<br /> ";*/
+				$q_r = "UPDATE `recipe_products_quantities` 
+				SET `quantity`= $quantity[$k],
+				`product_id` = $p[$k],
+				`measures_id` = $measure[$k]
+				WHERE `id`=$id";
+
+				if (mysqli_query($connect, $q_r)) {
+					$flag = 1;
+				} else {
+					$flag = 0;
+				}
+				$id++;
 			}
-			$id++;
-		}
 		//запис на описанието на рецептата
-		$q_des = "UPDATE `recipes` 
-		SET `description`='$description'
-		WHERE `id` = $id_rec";
-		if (mysqli_query($connect, $q_des)) {
-			$flag_des = 1;
-		} else {
-			$flag_des = 0;
+			$q_des = "UPDATE `recipes` 
+			SET `description`='$description'
+			WHERE `id` = $id_rec";
+			if (mysqli_query($connect, $q_des)) {
+				$flag_des = 1;
+			} else {
+				$flag_des = 0;
+			}
+			if ($flag == 1 && $flag_des == 1) {
+				echo "Успешно записахте всички продукти и описание!";
+			} else {
+				echo "Опитайте отново!";
+			}
+
+			
+
 		}
-		if ($flag == 1 && $flag_des == 1) {
-			echo "Успешно записахте всички продукти и описание!";
-		} else {
-			echo "Опитайте отново!";
-		}
+		?>
+		<a href="product_photo.php?product=<?php echo $product?>">промени снимка</a>
 
-	}
-	?>
-
-
-</body>
-</html>
+	</body>
+	</html>

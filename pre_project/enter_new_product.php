@@ -1,10 +1,9 @@
 	<?php 
-	//new product
 	$username = 'kokolina';
 	require_once('functions.php');
-	connect_database($connect);
-		?>
-		<!-- to be deleted from here-->
+	require_once('includes.php');
+	?>
+	<!-- to be deleted from here-->
 	<!DOCTYPE html>
 	<html lang="en">
 	<head>
@@ -16,7 +15,7 @@
 		<script src="jquery-1.11.3.min.js"></script>
 	</head>
 	<body>
-	<!-- up to here to be deleted-->
+		<!-- up to here to be deleted-->
 		<p>Количествата на продуктите се въвеждат в грамове или милилитри. Допустими са и количества като - чаена лъжичка /ч. л/, кафена лъжичка /к. л/, щипка, брой /бр./, глава/гл./, когато това е уместно. </p>
 		<p>Въведете данни за Вашата рецепта</p>
 		<!-- форма за продуктите-->
@@ -32,17 +31,19 @@
 			<input type="submit" value="запиши" name="submit">
 		</form>
 		<?php 
-
 		if (isset($_POST['submit'])) {
 			$username = $_POST['username'];
 			$product = $_POST['product'];
 			$cal = $_POST['cal'];
 			$gi = $_POST['gi'];	
 			$id_user = "";
-			get_id_user($username, $connect, $id_user);
-
+			//get user id, дали може да се включи във файла инклуд като повтарящ се код
+			$q = "SELECT * FROM `users` WHERE `username` = '$username'";
+			$result = mysqli_query($connect, $q);
+			$row = mysqli_fetch_assoc($result);	
+			$id_user= $row['id'];
 			$q = "INSERT INTO `products`(`product`, `calories`, `gi`, `user_id`, `date_published`) 
-				VALUES ('$product', $cal, $gi, $id_user, '$date')";
+			VALUES ('$product', $cal, $gi, $id_user, '$date')";
 			if (mysqli_query($connect, $q)) {
 				echo "Успешен запис!";
 			} else {
@@ -52,5 +53,6 @@
 		?>
 		<a href="delete_new_product.php?product=<?php echo $product?>">Изтрий</a>
 		<a href="update_new_product.php?product=<?php echo $product?>">Промени</a>
+		<a href="product_photo.php?product=<?php echo $product?>">добави снимка</a>
 	</body>
 	</html>
