@@ -58,7 +58,6 @@ if (!empty($_GET)) {
 		echo "Моля, попълнете информацията за рeцептата!";
 	}
 	?>
-	<!--Само на този запис ще му бъде позволенода се изтрива напълно!?????-->
 	<a href="delete_recipe.php?id_rec=<?php echo $id_rec?>">Изтрий</a>
 	<a href="update_recipe.php?id_rec=<?php echo $id_rec?>">Промени</a>
 </body>

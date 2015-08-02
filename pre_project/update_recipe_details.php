@@ -10,7 +10,7 @@ if (!empty($_GET)) {
 	//данните, вече въведени за описанието на рецептата и нейните продукти и за евентуална промяна
 	$q = "SELECT * FROM `recipes` WHERE `id` = $id_rec";
 	$result = mysqli_query($connect, $q);
-	$row = mysqli_fetch_assoc($result);
+	$row_rec = mysqli_fetch_assoc($result);
 //	 и нейните продукти и за евентуална промяна
 	$prod_info = array(array());
 	$q_prod = "SELECT * FROM `recipe_products_quantities` WHERE `recipe_id` = $id_rec ORDER BY `id`";
@@ -95,7 +95,6 @@ echo "</pre>";*/
 
 			
 		}
-
 
 		?>
 		<label for="description">Начин на приготвяне на рецептата</label>
@@ -182,7 +181,7 @@ echo "</pre>";*/
 
 		}
 		?>
-		<a href="product_photo.php?product=<?php echo $product?>">промени снимка</a>
+		<a href="update_photo_recipe.php?id_rec=<?php echo $id_rec?>">промени снимка</a>
 
 	</body>
 	</html>

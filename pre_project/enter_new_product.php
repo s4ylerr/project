@@ -53,6 +53,6 @@
 		?>
 		<a href="delete_new_product.php?product=<?php echo $product?>">Изтрий</a>
 		<a href="update_new_product.php?product=<?php echo $product?>">Промени</a>
-		<a href="product_photo.php?product=<?php echo $product?>">добави снимка</a>
+		<a href="photo_product.php?product=<?php echo $product?>">добави снимка</a>
 	</body>
 	</html>

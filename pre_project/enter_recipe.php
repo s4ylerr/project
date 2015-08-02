@@ -31,7 +31,7 @@
 			$date = date('Y-m-d');
 			$id_user = "";
 
-		//getting the id of the user
+		//getting the id of the user !!! from sessions username!!!!
 			$q = "SELECT * FROM `users` WHERE `username` = 'kokolina'";
 			$result = mysqli_query($connect, $q);
 			$row = mysqli_fetch_assoc($result);	
