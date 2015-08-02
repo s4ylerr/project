@@ -33,6 +33,32 @@ if (!empty($_GET)) {
 		<label for="name">Заглавие на Вашата рецепта</label>
 		<input type="text" name="name" id="name" value="<?php if(isset ($row_rec)) {echo $row_rec['name']; } else {echo ""; }?>">
 		<label for="num">Въведете брой на продуктите, участващи в рецептата</label>
+		<?php 
+		
+			
+		$q_f = "SELECT * FROM `food_types` ORDER BY `food_type`";
+			echo "<p><label for='f_t'>тип ястие</label>";
+			echo "<p><select name='id_food' id='f_t'>";
+			$result_f = mysqli_query($connect, $q_f);
+			if (mysqli_num_rows($result_f)>0) {
+				while ($row_f = mysqli_fetch_assoc($result_f)) {
+					$food_type = $row_f['food_type'];
+					$id_food = $row_f['id_food'];				
+					
+					echo "<option value='$id_food'";
+					if (!empty($row_rec)) {
+					if ($row_rec['id_food_type'] == $id_food) {
+						echo " selected";
+					}
+					}
+					echo ">".$food_type."</option>";
+
+				}
+			}
+			echo "</select></p>";
+		
+			
+			?>
 		<input type="number" name="number" value="<?php echo $num; ?>">		
 		<input type="hidden" name="id_user" value="<?php echo $row_rec['user_id']; ?>">
 		<input type="hidden" name="id_rec" value="<?php echo $id_rec; ?>">
@@ -43,11 +69,12 @@ if (!empty($_GET)) {
 		$num = $_POST['number'];
 		$name = $_POST['name'];
 		$date = date('Y-m-d');
+		$id_food = $_POST['id_food'];
 			//id user
 		$id = $_POST['id_user'];
 		$id_rec = $_POST['id_rec'];
 		//updating recipe into database				
-		$q = "UPDATE `recipes` SET `name`= '$name', `date_published`= '$date'
+		$q = "UPDATE `recipes` SET `name`= '$name', `id_food_type`= $id_food,`date_published`= '$date'
 		WHERE `id`= $id_rec";
 		if (mysqli_query($connect, $q)) {					
 			echo $name." Рецептата съдържа ".$num." продукта.";

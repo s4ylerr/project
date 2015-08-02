@@ -20,6 +20,22 @@
 		<form method="post" action="enter_recipe.php">
 			<label for="name">Заглавие на Вашата рецепта</label>
 			<input type="text" name="name" id="name">
+			<?php 
+$q_f = "SELECT * FROM `food_types` ORDER BY `food_type`";
+			
+			echo "<p><label for='f_t'>тип ястие</label>";
+			echo "<p><select name='id_food' id='f_t'>";
+			$result_f = mysqli_query($connect, $q_f);
+			if (mysqli_num_rows($result_f)>0) {
+				while ($row_f = mysqli_fetch_assoc($result_f)) {
+					$food_type = $row_f['food_type'];
+					$id_food = $row_f['id_food'];						
+					echo "<option value='$id_food'>$food_type</option>";
+				}
+			}
+			echo "</select></p>";
+			
+			?>
 			<label for="num">Въведете брой на продуктите, участващи в рецептата</label>
 			<input type="number" name="num" id="num">		
 			<input type="submit" name="submit" value="въведи">
@@ -28,6 +44,8 @@
 		if (isset($_POST['submit'])) {
 			$num = $_POST['num'];
 			$name = $_POST['name'];
+			$id_food = $_POST['id_food'];
+			echo $id_food;
 			$date = date('Y-m-d');
 			$id_user = "";
 
@@ -37,8 +55,8 @@
 			$row = mysqli_fetch_assoc($result);	
 			$id_user= $row['id'];
 		//entering recipe into database
-			$q_r = "INSERT INTO `recipes`(`name`, `date_published`, `user_id`) 
-			VALUES ('$name','$date', $id_user)";
+			$q_r = "INSERT INTO `recipes`(`name`, `id_food_type`, `date_published`, `user_id`)
+			 VALUES ('$name', $id_food,'$date','$id_user')";
 			if (mysqli_query($connect, $q_r)) {
 				$q = "SELECT `id` FROM `recipes` WHERE `name` = '$name'";
 				$result = mysqli_query($connect, $q);
