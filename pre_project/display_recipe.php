@@ -11,7 +11,7 @@ JOIN `recipe_products_quantities` ON  `recipes`.`id`=`recipe_products_quantities
 JOIN `products` ON `recipe_products_quantities`.`product_id`=`products`.`id`
 JOIN `measures` ON `recipe_products_quantities`.`measures_id` = `measures`.`id`
 JOIN `food_types` ON `recipes`.`id_food_type` = `food_types`.`id_food`
- WHERE `recipes`.`id`= 24"; 
+WHERE `recipes`.`id`= 24"; 
 
 
 $res = mysqli_query($connect, $q);
@@ -27,25 +27,24 @@ echo "<pre>";
 var_dump($recipe);
 echo "</pre>";
 $count = count($recipe);
+echo "<p>".$recipe[0]['name']."</p>
+<p>Калории/100 гр ".$recipe[0]['cal_recipe']."</p>
+<p>Гликемичен индекс/100гр ".$recipe[0]['gi_recipe']."</p>
+<p>".$recipe[0]['food_type']."</p>
+<p>публикувана от ".$recipe[0]['username']." на ".$recipe[0]['date_published']."</p>";
 
-	echo "<p>".$recipe[0]['name']."</p>
-			<p>Калории/100 гр ".$recipe[0]['cal_recipe']."</p>
-			<p>Гликемичен индекс/100гр ".$recipe[0]['gi_recipe']."</p>
-			<p>".$recipe[0]['food_type']."</p>
-			<p>публикувана от ".$recipe[0]['username']." на ".$recipe[0]['date_published']."</p>";
-		
-		echo	"<p>Продукти</p>
-					<ol>";
-		
-			for ($i=0; $i < $count ; $i++) { 
-				echo "<li>".$recipe[$i]['product'].'-'.$recipe[$i]['quantity'].'-'.$recipe[$i]['measure']."</li>";
-			}
-			echo "</ol>";
-			echo "<p>".$recipe[0]['description']."</p>";
-			$q_photo = "SELECT `content_photo` FROM `recipes` WHERE `id` = 24";
-			$res_photo = mysqli_query($connect, $q_photo);
-			$row_photo = mysqli_fetch_assoc($res_photo);
-			echo '<img src="data:image/jpeg;base64,'.base64_encode( $row_photo['content_photo'] ).'"/>';
+echo	"<p>Продукти</p>
+<ol>";
+	
+	for ($i=0; $i < $count ; $i++) { 
+		echo "<li>".$recipe[$i]['product'].'-'.$recipe[$i]['quantity'].'-'.$recipe[$i]['measure']."</li>";
+	}
+	echo "</ol>";
+	echo "<p>".$recipe[0]['description']."</p>";
+	$q_photo = "SELECT `content_photo` FROM `recipes` WHERE `id` = 24";
+	$res_photo = mysqli_query($connect, $q_photo);
+	$row_photo = mysqli_fetch_assoc($res_photo);
+	echo '<img src="data:image/jpeg;base64,'.base64_encode( $row_photo['content_photo'] ).'"/>';
 
 
-?>
+	?>

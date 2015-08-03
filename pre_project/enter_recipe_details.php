@@ -84,8 +84,7 @@ if (!empty($_GET)) {
 
 		//не е задължително да има снимка!!??
 		if(!empty($_FILES))		{
-			if (!empty($_FILES['photo']['tmp_name'])) {
-				
+			if (!empty($_FILES['photo']['tmp_name'])) {			
 
 				$file_name = $_FILES['photo']['name'];
 				$tmp_name = $_FILES['photo']['tmp_name'];

@@ -12,8 +12,8 @@ $res = mysqli_query($connect, $q);
 $row = mysqli_fetch_assoc($res);
 
 echo "<p> Информация за ".$row['product']."</p>
-<p>Калории/100 гр ".$row['calories']."</p>
-<p>Гликемичен индекс/100гр ".$row['gi']."</p>
+<p>Калории/100 гр - ".$row['calories']."</p>
+<p>Гликемичен индекс/100гр - ".$row['gi']."</p>
 <p>публикувана от ".$row['username']." на ".$row['date_published']."</p>";
 //снимка ако има
 if (!empty($row['content_photo'])) {

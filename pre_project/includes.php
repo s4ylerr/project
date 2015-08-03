@@ -7,7 +7,6 @@ $connect = mysqli_connect('localhost', 'root', '', 'foods_project');
 	}
 //for proper input!!
 mysqli_set_charset($connect, 'utf8');
-
 //getting the current date
 date_default_timezone_set('Europe/Sofia');
 $date = date('Y-m-d');

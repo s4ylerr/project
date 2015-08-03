@@ -1,11 +1,9 @@
 <?php 
 header('Content-Type: text/html; charset=utf-8'); 
 require_once('functions.php');
-	require_once('includes.php');
+require_once('includes.php');
 if (!empty($_GET)) {
 	$id = $_GET['id'];
-	
-
 	$q = "SELECT `content_photo` FROM `products` WHERE id = $id";
 	$result = mysqli_query($connect, $q);
 	$row = mysqli_fetch_assoc($result);

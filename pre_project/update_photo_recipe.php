@@ -4,7 +4,6 @@ require_once('functions.php');
 	require_once('includes.php');
 	if (!empty($_GET)) {
 		$id_rec = $_GET['id_rec'];
-	
 
 $q = "SELECT `content_photo` FROM `recipes` WHERE id = $id_rec";
 $result = mysqli_query($connect, $q);

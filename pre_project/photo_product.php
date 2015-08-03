@@ -1,4 +1,4 @@
-<?php 
+0<?php 
 $username = 'kokolina';
 require_once('functions.php');
 require_once('includes.php');
