@@ -1,11 +1,7 @@
 <?php 
 header('Content-Type: text/html; charset=utf-8'); 
-$connect = mysqli_connect('localhost', 'root', '', 'foods_project'); 
-if (!$connect) {
-	die ("Connection failed: mysqli_connect_error()");
-} else {
-	echo "Connected successfully<br />";
-}
+require_once('functions.php');
+	require_once('includes.php');
 if (!empty($_GET)) {
 	$id = $_GET['id'];
 	

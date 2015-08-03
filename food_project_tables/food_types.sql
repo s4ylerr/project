@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 30, 2015 at 12:59 PM
+-- Generation Time: Aug 03, 2015 at 02:19 PM
 -- Server version: 5.6.16
 -- PHP Version: 5.5.9
 
@@ -25,22 +25,22 @@ SET time_zone = "+00:00";
 --
 -- Table structure for table `food_types`
 --
--- Creation: Jul 28, 2015 at 06:22 PM
+-- Creation: Aug 02, 2015 at 04:06 PM
 --
 
 CREATE TABLE IF NOT EXISTS `food_types` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
+  `id_food` int(11) NOT NULL AUTO_INCREMENT,
   `food_type` varchar(50) NOT NULL,
-  PRIMARY KEY (`id`),
+  PRIMARY KEY (`id_food`),
   UNIQUE KEY `food_type` (`food_type`),
-  KEY `id` (`id`)
+  KEY `id` (`id_food`)
 ) ENGINE=InnoDB  DEFAULT CHARSET=utf8 AUTO_INCREMENT=12 ;
 
 --
 -- Dumping data for table `food_types`
 --
 
-INSERT INTO `food_types` (`id`, `food_type`) VALUES
+INSERT INTO `food_types` (`id_food`, `food_type`) VALUES
 (11, 'коктейли'),
 (10, 'напитки'),
 (5, 'постни ястия'),

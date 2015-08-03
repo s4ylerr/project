@@ -3,7 +3,7 @@
 -- http://www.phpmyadmin.net
 --
 -- Host: 127.0.0.1
--- Generation Time: Jul 30, 2015 at 01:00 PM
+-- Generation Time: Aug 03, 2015 at 02:20 PM
 -- Server version: 5.6.16
 -- PHP Version: 5.5.9
 
@@ -25,6 +25,8 @@ SET time_zone = "+00:00";
 --
 -- Table structure for table `measures`
 --
+-- Creation: Jul 28, 2015 at 06:22 PM
+--
 
 CREATE TABLE IF NOT EXISTS `measures` (
   `id` int(11) NOT NULL AUTO_INCREMENT,
@@ -41,9 +43,9 @@ INSERT INTO `measures` (`id`, `measure`) VALUES
 (32, 'бр.'),
 (35, 'връзка'),
 (33, 'гл.'),
-(28, 'грама'),
+(28, 'гр'),
 (31, 'к. л.'),
-(29, 'милилитра'),
+(29, 'мл'),
 (34, 'стрък'),
 (30, 'ч. л.'),
 (36, 'щипка');
