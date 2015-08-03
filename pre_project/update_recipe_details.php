@@ -47,21 +47,21 @@ echo "</pre>";*/
 		<!--recipe products and measures-->
 		<?php 
 		for ($j=0; $j < $num; $j++) { 
-			echo $j.' ';
-			echo $prod_info[$j]['product_id'].' ';
+			//echo $j.' ';
+			//echo $prod_info[$j]['product_id'].' ';
 			$q = "SELECT * FROM `products` ORDER BY `product` ";
 			$result = mysqli_query($connect, $q);
 			$pr = $j+1;
 			echo "<p><label for='prod'".$j."'>Продукт".$pr."</label>";
 			echo "<select name='product[]' id='prod".$j."'>";
-			echo $j.' ';
+			//echo $j.' ';
 			echo $prod_info[$j]['product_id'].' ';
 			if (mysqli_num_rows($result)>0) {
 				while ($row = mysqli_fetch_assoc($result)) {	
 					$product = $row['product'];
 					$prod_id = $row['id'];				
 					echo "<option value='$prod_id'";
-					echo $j;
+					//echo $j;
 					echo $prod_info[$j]['product_id'];
 					if ($prod_id == $prod_info[$j]['product_id']) {
 						echo " selected";

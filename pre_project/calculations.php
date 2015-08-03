@@ -3,7 +3,7 @@ header('Content-Type: text/html; charset=utf-8');
 require_once('functions.php');
 require_once('includes.php');
 //TODO with sessions
-$id_rec = 24;
+$id_rec = 26;
 $i = 0;
 $j = 0;
 $info = array(array());

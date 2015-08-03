@@ -1,4 +1,6 @@
 <?php 
+//TO DO RECIPE ID
+$id_rec = 26;
 header('Content-Type: text/html; charset=utf-8'); 
 require_once('functions.php');
 require_once('includes.php');
@@ -11,7 +13,7 @@ JOIN `recipe_products_quantities` ON  `recipes`.`id`=`recipe_products_quantities
 JOIN `products` ON `recipe_products_quantities`.`product_id`=`products`.`id`
 JOIN `measures` ON `recipe_products_quantities`.`measures_id` = `measures`.`id`
 JOIN `food_types` ON `recipes`.`id_food_type` = `food_types`.`id_food`
-WHERE `recipes`.`id`= 24"; 
+WHERE `recipes`.`id`= $id_rec"; 
 
 
 $res = mysqli_query($connect, $q);
@@ -23,9 +25,9 @@ if (mysqli_num_rows($res)) {
 		$i++;
 	}
 }
-echo "<pre>";
+/*echo "<pre>";
 var_dump($recipe);
-echo "</pre>";
+echo "</pre>";*/
 $count = count($recipe);
 echo "<p>".$recipe[0]['name']."</p>
 <p>Калории/100 гр ".$recipe[0]['cal_recipe']."</p>
@@ -41,7 +43,7 @@ echo	"<p>Продукти</p>
 	}
 	echo "</ol>";
 	echo "<p>".$recipe[0]['description']."</p>";
-	$q_photo = "SELECT `content_photo` FROM `recipes` WHERE `id` = 24";
+	$q_photo = "SELECT `content_photo` FROM `recipes` WHERE `id` = $id_rec";
 	$res_photo = mysqli_query($connect, $q_photo);
 	$row_photo = mysqli_fetch_assoc($res_photo);
 	echo '<img src="data:image/jpeg;base64,'.base64_encode( $row_photo['content_photo'] ).'"/>';
