@@ -1,7 +1,7 @@
 <?php 
 //TO DO RECIPE ID
-$id_rec = 33;
-header('Content-Type: text/html; charset=utf-8'); 
+
+
 require_once('functions.php');
 require_once('includes.php');
 //change  `recipes`.`id`= 7
@@ -48,5 +48,5 @@ echo	"<p>Продукти</p>
 	$row_photo = mysqli_fetch_assoc($res_photo);
 	echo '<img src="data:image/jpeg;base64,'.base64_encode( $row_photo['content_photo'] ).'"/>';
 
-
+require_once('template/footer.php');
 	?>

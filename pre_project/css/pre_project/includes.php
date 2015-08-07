@@ -1,5 +1,5 @@
 <?php 
-$connect = mysqli_connect("localhost", "root", "", 'vratsad_foods_project'); 
+$connect = mysqli_connect("localhost", "root", "", 'foods_project'); 
 	if (!$connect) {
 		die ("Connection failed: mysqli_connect_error()");
 	} else {
