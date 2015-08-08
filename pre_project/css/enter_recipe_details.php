@@ -85,12 +85,23 @@ if (!empty($_GET)) {
 
 
 					?>
-					<label for="description">Начин на приготвяне на рецептата</label>
-					<textarea name="description" id="description"></textarea>
-					<label for="ph">снимка</label>
-					<input type="file" name="photo" id="ph">
-					<input type="submit" value="submit" name="submit">
+					<div class="row form-group">
+						<label class="rd" for="description">Начин на приготвяне на рецептата</label>
+						<textarea name="description" class="form-control" id="description"></textarea>
+					</div>
+					<div class="row rd form-group">
+						<div class="col-xs-4 col-xs-offset-1">
+							<label class="rd_photo" for="ph">СНИМКА</label>
+						</div>
+						<div class="col-xs-4 col-xs-offset-1">
+							<input type="file" name="photo" id="ph">
+						</div>
+					</div>
+					<div class="row form-group">
+						<button type="submit" name="submit" class="btn btn-primary">ЗАПИШИ</button>						
+					</div>
 				</form>
+
 				<?php
 				if (isset($_POST['submit'])) {
 					$id_rec = $_POST['id_rec'];
@@ -162,10 +173,13 @@ if (!empty($_GET)) {
 				?>
 
 			</div>
+			
+
 		</div>
+
 	</div>
 
-	<a href="delete_recipe_details.php?id_rec=<?php echo $id_rec?>">Изтрий</a>
+	
 </div>
 <?php 
 require_once('template/footer.php');

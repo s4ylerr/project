@@ -24,6 +24,12 @@
 label.rd {
 	font-size: 14px;
 }
+div.rd {
+	font-size: 14px;
+}
+.rd_photo {
+	font-size: 18px;
+}
 
 .enterr {	
 	background-image:url('images/Colorful.jpg');
