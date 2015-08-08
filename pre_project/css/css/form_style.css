@@ -1,0 +1,42 @@
+.first_enterr {
+	margin-top: 2%;
+	margin-bottom: 2%;
+	background-color: rgba(180, 253, 181, 0.3);
+	color: #fff;	
+
+}
+.first_enterd {
+	margin-top: 2%;
+	margin-bottom: 2%;
+	background-color: rgba(180, 253, 181, 0.3);
+
+}
+.rd {
+	color: #fff;
+}
+.form {
+	margin-top: 6%;
+	margin-bottom: 5%;
+}
+.line {
+	margin-top: 2%;
+}
+label.rd {
+	font-size: 14px;
+}
+
+.enterr {	
+	background-image:url('images/Colorful.jpg');
+	font-size: 18px;
+}
+.enterd {	
+	background-image:url('images/images.jpg');
+	background-repeat: repeat repeat;
+	font-size: 18px;
+}
+.text-info {
+	font-size: 24px;
+}
+.text {
+	color: $fff;
+}

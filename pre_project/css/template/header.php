@@ -12,6 +12,7 @@ $fetch_row = mysqli_fetch_assoc($query_s_page);
 <html>
 <head>
 	<link href="css/js-image-slider.css" rel="stylesheet" type="text/css" />
+	<link rel="stylesheet" type="text/css" href="css/form_style.css">
     <script src="js/js-image-slider.js" type="text/javascript"></script>
     <link href="css/generic.css" rel="stylesheet" type="text/css" />
 	<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
