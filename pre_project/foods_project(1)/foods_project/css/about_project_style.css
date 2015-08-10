@@ -1,0 +1,26 @@
+
+
+div.wrapper_pr {
+	background-image: url('images/lines.png');
+	background-repeat: repeat repeat;
+	margin-top: 0;
+	margin-bottom: 0;
+}
+div.about_pr {
+	font-family: Futura, "Trebuchet MS", Arial, sans-serif, "Big Caslon", "Book Antiqua", "Palatino Linotype", Georgia, serif, "Didot LT STD", "Hoefler Text", Garamond, "Times New Roman", serif, "Bitstream Vera Sans Mono", monospace, Century;
+	font-size: 16px;
+	padding-top: 2%;
+	padding-bottom: 2%;
+	
+	
+} 
+div.inner {
+background-color: hsla(103, 99%, 51%, 0.05);
+}
+p.about_pr {
+	text-indent: 5%;
+
+}
+span.about_pr {
+	font-style: italic;
+}

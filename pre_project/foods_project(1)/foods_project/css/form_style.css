@@ -1,0 +1,58 @@
+.first_enterr {
+	margin-top: 2%;
+	margin-bottom: 2%;
+	background-color: hsla(103, 99%, 51%, 0.1);
+	color: #6B6969;
+		
+
+}
+
+div.r_title {
+	margin-top: 2%;
+}
+.form {
+	margin-top: 6%;
+	margin-bottom: 5%;
+}
+.line {
+	margin-top: 2%;
+}
+label.rd {
+	font-size: 14px;
+}
+div.new_ph {
+	margin-bottom: 4%;
+}
+div.rd {
+	font-size: 14px;
+}
+.rd_photo {
+	font-size: 18px;
+}
+
+.enterr {	
+	background-image:url('images/lines.png');
+	background-repeat: repeat repeat;
+	font-size: 18px;
+}
+
+.updater {
+	background-image:url('images/lines.jpg');
+	background-repeat: repeat repeat;
+	font-size: 18px;
+}
+.displayr {
+	background-image:url('images/lines.jpg');
+	background-repeat: repeat repeat;
+	font-size: 18px;
+	
+}
+.photo {
+	margin-top: 2%;
+}
+.text-info {
+	font-size: 24px;
+}
+.text {
+	color: $fff;
+}
