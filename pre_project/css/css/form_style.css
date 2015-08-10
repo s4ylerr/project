@@ -9,6 +9,7 @@
 	margin-top: 2%;
 	margin-bottom: 2%;
 	background-color: rgba(180, 253, 181, 0.3);
+	color: #fff;	
 
 }
 .rd {
@@ -24,6 +25,9 @@
 label.rd {
 	font-size: 14px;
 }
+div.new_ph {
+	margin-bottom: 4%;
+}
 div.rd {
 	font-size: 14px;
 }
@@ -32,13 +36,28 @@ div.rd {
 }
 
 .enterr {	
-	background-image:url('images/Colorful.jpg');
+	background-image:url('images/lines.png');
+	background-repeat: repeat repeat;
 	font-size: 18px;
 }
 .enterd {	
 	background-image:url('images/images.jpg');
 	background-repeat: repeat repeat;
 	font-size: 18px;
+}
+.updatep {
+	background-image:url('images/images.jpg');
+	background-repeat: repeat repeat;
+	font-size: 18px;
+}
+.displayr {
+	background-image:url('images/images.jpg');
+	background-repeat: repeat repeat;
+	font-size: 18px;
+	color: $fff;
+}
+.photo {
+	margin-top: 2%;
 }
 .text-info {
 	font-size: 24px;

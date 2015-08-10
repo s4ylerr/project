@@ -6,7 +6,7 @@
 	require_once('includes.php');
 	$username = $_SESSION['user'];
 	?>	
-	<div class="row enterr" style="background-image:url('images/Colorful.jpg')";>	
+	<div class="row enterr" style="background-image:url('images/lines.png')";>	
 		<div class="col-xs-12 just">
 			<div class="first_enterr text-center col-xs-8 col-xs-offset-2">
 				<p><h3>Въведете данни за Вашата рецепта</h3></p>
@@ -54,9 +54,6 @@
 											<button type="submit" name="submit" class="btn btn-primary">ВЪВЕДИ</button>
 										</div>
 									</form>
-
-
-
 									<?php 
 									if (isset($_POST['submit'])) {
 										$num = $_POST['num'];

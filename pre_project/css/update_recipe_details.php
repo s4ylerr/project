@@ -33,114 +33,130 @@ if (!empty($_GET)) {
 var_dump($prod_info);
 echo "</pre>";*/
 ?>
-
-	<p><?php if (isset($row['name'])) {echo $row['name'];}?></p>
-	<form method="post" action="" enctype="multipart/form-data">
-		<input type="hidden" name="id_rec" value="<?php echo $id_rec; ?>">
-		<input type="hidden" name="num_prod" value="<?php echo $num;?>">
-		<input type="hidden" name="id" value=<?php if (isset($prod_info[0]['id'])) {echo $prod_info[0]['id'];}?>>
-		<!--recipe products and measures-->
-		<?php 
-		for ($j=0; $j < $num; $j++) { 
+<div class="row updater" style="background-image:url('images/images.jpg')";>	
+	<!--Recipe name-->
+	<div class="first_enterd text-center  col-xs-8 col-xs-offset-2">
+		<div class="row line">
+			<h2 class="rd"><?php if (isset($row['name'])) {echo $row['name'];}?></h2>
+		</div>
+		<div class="row form">
+			<div class="col-xs-10 col-xs-offset-1">
+				<form method="post" action="" enctype="multipart/form-data" class="rd form-horizontal">
+					<input type="hidden" name="id_rec" value="<?php echo $id_rec; ?>">
+					<input type="hidden" name="num_prod" value="<?php echo $num;?>">
+					<input type="hidden" name="id" value=<?php if (isset($prod_info[0]['id'])) {echo $prod_info[0]['id'];}?>>
+					<!--recipe products and measures-->
+					<?php 
+					for ($j=0; $j < $num; $j++) { 
 			//echo $j.' ';
 			//echo $prod_info[$j]['product_id'].' ';
-			$q = "SELECT * FROM `products` ORDER BY `product` ";
-			$result = mysqli_query($connect, $q);
-			$pr = $j+1;
-			echo "<p><label for='prod'".$j."'>Продукт".$pr."</label>";
-			echo "<select name='product[]' id='prod".$j."'>";
-			//echo $j.' ';
-			echo $prod_info[$j]['product_id'].' ';
-			if (mysqli_num_rows($result)>0) {
-				while ($row = mysqli_fetch_assoc($result)) {	
-					$product = $row['product'];
-					$prod_id = $row['id'];				
-					echo "<option value='$prod_id'";
+						echo "<div class='form-group'>
+						<div class='row'>
+							<div class='col-xs-1'>";
+								$q = "SELECT * FROM `products` ORDER BY `product` ";
+								$result = mysqli_query($connect, $q);
+								$pr = $j+1;
+								echo "<p><label class='rd' for='prod'".$j."'>Пр".$pr."</label>
+							</div>
+							<div class='col-xs-4'>";
+									echo "<select class='form-control' name='product[]' id='prod".$j."'>";			//echo $j.' ';
+									echo $prod_info[$j]['product_id'].' ';
+									if (mysqli_num_rows($result)>0) {
+										while ($row = mysqli_fetch_assoc($result)) {	
+											$product = $row['product'];
+											$prod_id = $row['id'];				
+											echo "<option value='$prod_id'";
 					//echo $j;
-					echo $prod_info[$j]['product_id'];
-					if ($prod_id == $prod_info[$j]['product_id']) {
-						echo " selected";
-					} else {
-						echo "";
-					}
-					echo ">".$product."</option>";
-				}
-			}
-			echo "</select></p>";
-			$quantity = $prod_info[$j]['quantity'];
-			echo "<label for='quant'>Количество</label>";
-			echo "<input type='number' name='quantity[]' value = '$quantity'>";
+											echo $prod_info[$j]['product_id'];
+											if ($prod_id == $prod_info[$j]['product_id']) {
+												echo " selected";
+											} else {
+												echo "";
+											}
+											echo ">".$product."</option>";
+										}
+									}
+									echo "</select></p>";
+									$quantity = $prod_info[$j]['quantity'];
+									echo "</div>
+									<div class='col-xs-1'>";
+										echo "<label class='rd' for='quant'>Кол </label>
+									</div>
+									<div class='col-xs-2'>";
+										echo "<input class='form-control' type='number' name='quantity[]' value = '$quantity'>
+									</div>
+									<div class='col-xs-2'>";
+										$q_m = "SELECT * FROM `measures` ORDER BY `measure`";
+										$result_m = mysqli_query($connect, $q_m);
+										echo "<label class='rd'  for='meas'".$j."'>м. ед.</label>
+									</div>
+									<div class='col-xs-2'>";
+										echo "<select class='form-control' name='measure[]' id='meas".$j."'>";
+										if (mysqli_num_rows($result_m)>0) {
+											while ($row_m = mysqli_fetch_assoc($result_m)) {
+												$measure = $row_m['measure'];
+												$meas_id = $row_m['id'];						
+												echo "<option value='$meas_id'";
+												if ($prod_info[$j]['measures_id'] == $meas_id) {
+													echo " selected";
+												}
+												echo ">".$measure."</option>";
+											}
+										}
+										echo "</select>
+									</div>
+								</div>
+							</div>";
 
-			$q_m = "SELECT * FROM `measures` ORDER BY `measure`";
-			$result_m = mysqli_query($connect, $q_m);
-			echo "<p><label for='meas'".$j."'>мерна единица</label>";
-			echo "<p><select name='measure[]' id='meas".$j."'>";
-			if (mysqli_num_rows($result_m)>0) {
-				while ($row_m = mysqli_fetch_assoc($result_m)) {
-					$measure = $row_m['measure'];
-					$meas_id = $row_m['id'];						
-					echo "<option value='$meas_id'";
-					if ($prod_info[$j]['measures_id'] == $meas_id) {
-						echo " selected";
-					}
-					echo ">".$measure."</option>";
-				}
-			}
-			echo "</select></p>";
 
-			
-		}
+						}
 
-		?>
-		<label for="description">Начин на приготвяне на рецептата</label>
-		<textarea name="description" id="description" value="<?php echo $row_rec['description']; ?>">
-			<?php  if (isset ($row_rec['description'])){ echo $row_rec['description']; }?>
-		</textarea>
-		<?php 
-		$q = "SELECT `content_photo` FROM `recipes` WHERE id = $id_rec";
-		$result = mysqli_query($connect, $q);
-		$row = mysqli_fetch_assoc($result);
-		echo '<img src="data:image/jpeg;base64,'.base64_encode( $row['content_photo'] ).'"/>';
-		?>
-		
-		<input type="submit" value="submit" name="submit">
-
-	</form>
-	<?php
-	if (isset($_POST['submit'])) {
+						?>
+						<div class="row form-group">
+							<label class="rd" for="description">Начин на приготвяне на рецептата</label>
+							<textarea name="description" class="form-control" id="description" value="<?php echo $row_rec['description']; ?>">
+								<?php  if (isset ($row_rec['description'])){ echo $row_rec['description']; }?>
+							</textarea>
+						</div>
+						<div class="row form-group">
+							<button type="submit" name="submit" class="btn btn-primary">ЗАПИШИ</button>						
+						</div>
+					</form>
+					<?php
+					if (isset($_POST['submit'])) {
 		//трябва ли ми???
-		$id_rec = $_POST['id_rec'];
-		$id = $_POST['id'];
-		$quantity =  $_POST['quantity'];
-		
-		$measure = $_POST['measure'];
-		
-		$p = $_POST['product'];
-		$description = $_POST['description'];
+						$id_rec = $_POST['id_rec'];
+						$id = $_POST['id'];
+						$quantity =  $_POST['quantity'];
+
+						$measure = $_POST['measure'];
+
+						$p = $_POST['product'];
+						$description = $_POST['description'];
 	//num of prod
-		$num = $_POST['num_prod'];
+						$num = $_POST['num_prod'];
 		//updating photo
 		//не е задължително да има снимка
-		if(!empty($_FILES))		{			
-			$file_name = $_FILES['photo']['name'];
-			$tmp_name = $_FILES['photo']['tmp_name'];
-			$file_size = $_FILES['photo']['size'];
-			$file_type = $_FILES['photo']['type'];
-			$content = addslashes(file_get_contents($tmp_name));
+						if(!empty($_FILES))		{			
+							$file_name = $_FILES['photo']['name'];
+							$tmp_name = $_FILES['photo']['tmp_name'];
+							$file_size = $_FILES['photo']['size'];
+							$file_type = $_FILES['photo']['type'];
+							$content = addslashes(file_get_contents($tmp_name));
 //insering picture into the
-			$q = "UPDATE `recipes` 
-			SET `content_photo`='$content',
-			`name_photo`='$file_name',
-			`type_photo`='$file_type',
-			`size_photo`='$file_size' 
-			WHERE  `id` = $id_rec ";
-			mysqli_query($connect, $q) or die('Error, query failed.');
-			
-		}
+							$q = "UPDATE `recipes` 
+							SET `content_photo`='$content',
+							`name_photo`='$file_name',
+							`type_photo`='$file_type',
+							`size_photo`='$file_size' 
+							WHERE  `id` = $id_rec ";
+							mysqli_query($connect, $q) or die('Error, query failed.');
+
+						}
 	//update product info
-		$flag = 0;
-		$flag_des = 0;
-		for ($k = 0; $k < $num; $k++) { 
+						$flag = 0;
+						$flag_des = 0;
+						for ($k = 0; $k < $num; $k++) { 
 				/*echo $p[$k]." ";
 				echo $measure[$k]." ";
 				echo $quantity[$k]."<br /> ";*/
@@ -167,16 +183,34 @@ echo "</pre>";*/
 				$flag_des = 0;
 			}
 			if ($flag == 1 && $flag_des == 1) {
-				echo "Успешно записахте всички продукти и описание!";
+				echo "<div class'row'><div class='col-xs-8 col-xs-offset-2'><p class='bg-info text-primary'>Успешно записахте всички продукти и описание!</p></div></div>";
+				
 			} else {
-				echo "Опитайте отново!";
+				echo "<div class'row'><div class='col-xs-8 col-xs-offset-2'><p class='bg-danger text-danger'>Опитайте отново!</p></div></div>";
+			
 			}
 
 			
 
 		}
 		?>
-		<a href="update_photo_recipe.php?id_rec=<?php echo $id_rec?>">промени снимка</a>
+		<div>
+			<?php 
+			$q = "SELECT `content_photo` FROM `recipes` WHERE id = $id_rec";
+			$result = mysqli_query($connect, $q);
+			$row = mysqli_fetch_assoc($result);
+			echo '<img class="img-thumbnail img-responsive" src="data:image/jpeg;base64,'.base64_encode( $row['content_photo'] ).'"/>';
+			?>
+		</div>
+		<div class="row">
+		<div class="col-xs-4 col-xs-offset-4">
+			<a class="btn btn-info" href="update_photo_recipe.php?id_rec=<?php echo $id_rec?>" role="button">ПРОМЕНИ СНИМКА</a>
+		</div>
+		</div>
+	</div>
+</div>
+</div>
 
-	</body>
-	</html>
+
+</body>
+</html>

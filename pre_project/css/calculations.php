@@ -139,25 +139,44 @@ if (mysqli_num_rows($res)) {
 var_dump($recipe);
 echo "</pre>";*/
 $count = count($recipe);
-echo "<p>".$recipe[0]['name']."</p>
-<p>Калории/100 гр ".$recipe[0]['cal_recipe']."</p>
-<p>Гликемичен индекс/100гр ".$recipe[0]['gi_recipe']."</p>
-<p>".$recipe[0]['food_type']."</p>
-<p>публикувана от ".$recipe[0]['ur']." на ".$recipe[0]['dp']."</p>";
+?>
+<div class="row";>	
+	<div class="text col-xs-10 col-xs-offset-1">
+		<div class="row">
+			<div class="col-xs-6">
+				<?php
+				echo "<h3>".$recipe[0]['name']."</h3>
+				<div>
+				<p>Калории/100 гр ".$recipe[0]['cal_recipe']."</p>
+				<p>Гликемичен индекс/100гр ".$recipe[0]['gi_recipe']."</p>
+				<p> <em>категория </em>".$recipe[0]['food_type']."</p>
+				<p> <em>публикувана от ".$recipe[0]['ur']." на ".$recipe[0]['dp']."</em></p>
+				</div>";
 
-echo	"<p>Продукти</p>
-<ol>";
-	
-	for ($i=0; $i < $count ; $i++) { 
-		echo "<li>".$recipe[$i]['product'].'-'.$recipe[$i]['quantity'].'-'.$recipe[$i]['measure']."</li>";
-	}
-	echo "</ol>";
-	echo "<p>".$recipe[0]['description']."</p>";
-	$q_photo = "SELECT `content_photo` FROM `recipes` WHERE `id` = $id_rec";
-	$res_photo = mysqli_query($connect, $q_photo);
-	$row_photo = mysqli_fetch_assoc($res_photo);
-	echo '<img src="data:image/jpeg;base64,'.base64_encode( $row_photo['content_photo'] ).'"/><br />';
-	echo '<a href="update_recipe_details.php?updaterd='. $id_rec .'&num='.$num.'">Промени</a>';
 
-require_once('template/footer.php');
-	?>
+				echo	"<h4>Продукти</h4>
+				<ol>";
+
+					for ($i=0; $i < $count ; $i++) { 
+						echo "<li>".$recipe[$i]['product'].'-'.$recipe[$i]['quantity'].'-'.$recipe[$i]['measure']."</li>";
+					}
+					echo "</ol>
+				</div>
+				<div class='col-xs-6'>";
+
+
+
+					echo "<p>".$recipe[0]['description']."</p>";
+					$q_photo = "SELECT `content_photo` FROM `recipes` WHERE `id` = $id_rec";
+					$res_photo = mysqli_query($connect, $q_photo);
+					$row_photo = mysqli_fetch_assoc($res_photo);
+					echo '<img src="data:image/jpeg;base64,'.base64_encode( $row_photo['content_photo'] ).'"/><br />';
+					echo '<a href="update_recipe_details.php?updaterd='. $id_rec .'&num='.$num.'">Промени</a>
+				</div>';
+				?>
+				</div>
+			</div>
+		</div>
+		<?php
+		require_once('template/footer.php');
+		?>
